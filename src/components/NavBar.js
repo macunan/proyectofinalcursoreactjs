@@ -2,7 +2,7 @@ import React from 'react';
 import image from './1.jpg'
 import cart from './cart.gif'
 import { Navbar, NavItem, NavDropdown,MenuItem,Nav,Form,FormControl,Button} from 'react-bootstrap';
-
+import Carrito from './CartWidget.js';
 const NavBar = () => {
    return (
 
@@ -16,17 +16,13 @@ const NavBar = () => {
       <img src={image} alt="logo" width="80"></img>
   </a>
         <Nav className="mr-auto">
-      <Nav.Link href="#frutos">Frutos</Nav.Link>
+            <Nav.Link href="#frutos">Frutos</Nav.Link>
       <Nav.Link href="#Verduras">Verduras</Nav.Link>
       <Nav.Link href="#Contacto">Contacto</Nav.Link>
-          <Nav.Link href="#carrito"> Carrito de compras
-              <p>
-  <a class="navbar-brand" href="#">
-      <img src={cart} alt="logo" width="80"></img>
-          </a>
-              </p>
-              </Nav.Link>
-    </Nav>
+
+
+ <Carrito/>
+       </Nav>
     <Form inline>
       <FormControl type="text" placeholder="Busqueda" className="mr-sm-2" />
       <Button variant="outline-info">Busqueda</Button>
@@ -36,8 +32,13 @@ const NavBar = () => {
 
 
 
-   )
+
+    )
 }
+
+
+
+
 
 
 export default NavBar;
