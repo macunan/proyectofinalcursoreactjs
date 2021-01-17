@@ -1,20 +1,78 @@
-DESAFÍO - EXPIRA EL LUNES 18/01/2021 23:59HS
-Desafío: Contador con botón
-Tarea 4
+DESAFÍO - EXPIRA EL MIÉRCOLES 20/01/2021 23:59HS
+Desafío: Catálogo con MAPS y Promises
+Tarea5
 
-Camino:
+En directorio componentes:
+1) Se carga data.json en ItemListContainer.js se usa promise con demora de 2 segundos y hook.
+2) Posteriormente se pasa json a ItemList.js
 
-1) Desafio se llama desde ItemListContainer.js
+        <ItemList items={item}/>
 
-           <ItemCount product_name='Paquete de Zanahorias Deshidratas' stock={5} initial={1} />
-               <ItemCount product_name='Paquete de Berenjena Deshidratas' stock={9} initial={1} />
-
-2) ItemCount contiene lo que se va desplegar gráficamente junto con bloquear el botón cuando número de items se encuentra en 0.
-
-
-3) CountContainer.js contiene la lógica que se encarga de mantener el conteo del stock junto con manejar la lógica de negocios junto con desplegar alertas en casos criticos.
+3) Desde ItemList.js se usa map y el array de json para llamar Item.js que muestra cada item en json en pantalla.
 
 
-Saludos !
+
+Contenido de Itemlist
 
 
+const ItemList = ({items}) =>{
+    console.log(items);
+    return (
+        <>
+        { items.map(item=>
+
+            <Item key={item.id} jsonpack={item} />
+
+        )}
+
+
+
+        </>
+
+    )
+}
+
+export default ItemList;
+
+
+
+4) Contenido de Item.js que muestra cada item
+
+
+
+
+import React from "react";
+import {Card,Button} from 'react-bootstrap';
+const Item =({jsonpack})=>{
+  return(
+      <>
+      <Card  border="light"  bg="dark" style={{ width: '10rem' }}
+className="mb-2">
+
+<Card.Header>
+
+  <Card.Img variant="top"  src={jsonpack.pictureurl} />
+            </Card.Header>
+  <Card.Body>
+    <Card.Title>{jsonpack.title}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">Precio:{jsonpack.price}</Card.Subtitle>
+    <Card.Text>
+        Descripción<p></p>{jsonpack.description}
+        </Card.Text>
+  </Card.Body>
+</Card>
+      </>
+
+
+    );
+
+};
+
+
+
+export default Item;
+
+
+
+
+¡Gracias y saludos !

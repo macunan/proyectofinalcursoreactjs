@@ -1,6 +1,5 @@
 import React from "react";
 import {Button,ButtonGroup,Table} from 'react-bootstrap';
-// import CountContainer from './CountContainer';
 
 const ItemCount=({min,max,onAdd,count,stock,product_name})=>{
 
