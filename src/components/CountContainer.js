@@ -1,8 +1,5 @@
 import React,{useState} from "react";
 import ItemCount from "./ItemCount";
-
-
-
 const CountContainer =({initial,stock,product_name})=>{
 const [count,setCount]=useState(initial);
 
