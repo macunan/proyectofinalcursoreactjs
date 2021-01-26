@@ -25,8 +25,7 @@ En la entrega se incluye lo siguiente:
 
 -Codigo fuente  que se puede encontrar:
 https://github.com/macunan/tarea7primeraentrega
-Gif y mp4 de navegación de entrega adjuntado al sistema de coderhouse en la entrega 7:  video_gif_de_navegacion.zip
-
+mp4 de navegación pues sistema no me dejo subir gif de navegación porque pesaba mas de 10Mb
 
 1) En /src/App.js se incluye la información de Router
 se adjunta acá para facilitar la correción, pero se encarga de direccionar como definido:
