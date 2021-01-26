@@ -1,17 +1,13 @@
 import { Nav} from 'react-bootstrap';
 import React from 'react';
-import cart from './cart.gif'
+import cart from './cart.jpg'
 
 const Carrito = () => {
    return (
 
 
           <Nav.Link href="#carrito"> Carrito de compras
-              <p>
-  <a class="navbar-brand" href="#">
-      <img src={cart} alt="logo" width="80"></img>
-          </a>
-              </p>
+      <img src={cart} alt="logo" width="30"></img>
               </Nav.Link>
 
 

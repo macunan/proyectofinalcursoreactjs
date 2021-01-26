@@ -2,9 +2,9 @@
 import React, {useState,useEffect} from 'react';
 import {Card,Button} from 'react-bootstrap';
 import  ItemCount from './CountContainer';
-
+import {Link} from 'react-router-dom';
 const ItemDetail =({jsonpack})=>{
-    console.log(jsonpack);
+    console.log("Detalle de ItemDetail:",jsonpack);
     return(
       <>
         <div id="centerman" align="center">
@@ -13,20 +13,23 @@ className="mb-2">
 
 <Card.Header>
 
-  <Card.Img variant="top"  src={jsonpack.thumbnail} />
+  <Card.Img variant="top"  src={jsonpack.pictureurl} />
             </Card.Header>
   <Card.Body>
-    <Card.Title>{jsonpack.title}</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">Precio:{jsonpack.price}</Card.Subtitle>
+      <Link to={`/item/${jsonpack.id}`}>
+
+          <Card.Link href="#" >{jsonpack.title}</Card.Link>
+          </Link>
+          <Card.Subtitle className="mb-2 text-muted">Precio:{jsonpack.price}</Card.Subtitle>
     <Card.Text>
-        Cantidad{jsonpack.available_quantity}<p></p>
+        Cantidad disponible:{jsonpack.stock}
         </Card.Text>
   </Card.Body>
 </Card>
 
 
 
-        <ItemCount product_name={jsonpack.title} stock={jsonpack.available_quantity} initial={1}/>
+        <ItemCount product_name={jsonpack.title} stock={jsonpack.stock} initial={1}/>
 
 
 
