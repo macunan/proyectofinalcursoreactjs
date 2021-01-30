@@ -1,154 +1,162 @@
-DESAFÍO - EXPIRA EL LUNES 27/01/2021 23:59HS
-Desafío: Primera Entrega
-Tarea7
-En modo resumen:
+DESAFÍO 8 - EXPIRA EL LUNES 01/02/2021 23:59HS
+Desafío: Sincronizar counter
+
+Hola la lógica de la entrega es la siguiente:
 
 
+1)
+En App.js se agrego la siguiente ruta para poder cumplir con el requerimiento de al momento terminar la compra navegar a /cart
 
-To make dropdown menu and other js stuff work in 4th Bootstrap you need just follow next steps: install with npm to dependencies:
-
-
-Para que funcione el dropdown de NavBar
-Se tomaron los siguientes pasos
-npm i --save bootstrap jquery popper.js
-
-Agregar a  index.js lo siguiente
-
-import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/js/bootstrap.js';
-import $ from 'jquery';
-import Popper from 'popper.js';
-
-
-En la entrega se incluye lo siguiente:
-
--Codigo fuente  que se puede encontrar:
-https://github.com/macunan/tarea7primeraentrega
-mp4 de navegación pues sistema no me dejo subir gif de navegación porque pesaba mas de 10Mb
-
-1) En /src/App.js se incluye la información de Router
-se adjunta acá para facilitar la correción, pero se encarga de direccionar como definido:
-
-
-import './App.css';
-import NavBar from './components/NavBar';
-// import ItemListContainer from './components/ItemListContainer';
-import ItemDetailContainer from './components/ItemDetailContainer.js'
-// Did at  npm install  bootstrap react-bootstrap in project base directory
- import "bootstrap/dist/css/bootstrap.min.css";
-import ItemListContainer from './components/ItemListContainer';
-     // <ItemListContainer name={mensaje} />
-import {BrowserRouter,Switch,Route} from 'react-router-dom';
-
-const mensaje = "Bienvenido al paraiso de las frutas secas, nosotros secamos con amor";
-function App() {
-  return (
-
-        <BrowserRouter>
-<NavBar/>
-    <Switch>
-        <Route exact path="/">
-            <ItemListContainer name="Escoger Producto a Comprar"/>
-                </Route>
-                    <Route path="/categories/:categoryid">
-                        <ItemListContainer/>
+                    <Route path="/cart">
+                        <Cart/>
                         </Route>
-                    <Route path="/categories">
-                        <ItemListContainer/>
-                        </Route>
-                    <Route path="/item/:itemid">
-                        <ItemDetailContainer/>
-                        </Route>
-                            </Switch>
-      <header className="App-header">
-      </header>
-    </BrowserRouter>
-          );
+
+2) Se saco la lógica de función onAdd de CountContainer y se llevo a /src/ItemDetail.js
+para realizar la anterior desde ItemCount se llama componente <ItemDetailButton> que se encuentra en ItemDetail
+
+          <ItemDetailButton contador={count}/>
+
+
+
+3) El cerebro de toda la operación se encuentra en ItemDetail.
+
+Contamos con ItemCount que aún sigue con el resto de la lógica y el famoso botón Terminar mi compra que inicialmente esta escondido con display:none, por favor lo le cuentes a nadie sobre el boton  me da verguenza hahaha!
+
+
+Los siguientes componentes siguen dentro de ItemDetail
+    <ItemCount product_name={jsonpack.title} stock={jsonpack.stock} initial={1} />
+        <button id="but1" style={{display:'none'}}  onClick={Terminar}>Terminar mi compra</button>
+
+4)
+Una vez que el cliente hacer click en agregar al carro de nuestro componente <ItemDetailButton/> se llama función onAdd usamos el evento onClick para tal efecto
+Se muestra  código de componente a continuación para facilidad del corrector.
+
+export const ItemDetailButton =({contador})=>{
+console.log("Contador"+contador);
+    const  onAdd=({e})=>{
+console.log("Estoy en onAdd ItemDetail y count:");
+document.getElementById("but1").style.display="block";
+document.getElementById("but2").style.display="none";
+alert("Enhorabuena vuestro producto ha sido agregado al carrito de compras");
+
 }
 
+    return(
+        <>
+
+        <button disabled={contador===0} id="but2" onClick={onAdd}>Agregar a carrito</button>
+
+        </>
+    );
+};
+
+onAdd es como un mago que hace desaparecer el botón Agregar al carro but2 y hace aparecer el bóton but1 con block el David Copperfield de nuestro código.
 
 
-export default App;
+
+5) Una vez que el usuario hace click en Terminar mi compra se llama función Terminar que manda al usuario al Cart usando ese método cool de javascript window.location.href="/cart"
+
+        <button id="but1" style={{display:'none'}}  onClick={Terminar}>Terminar mi compra</button>
 
 
-2) En src/components/NavBar.js Se incluyen los Links para el menu de navegación
 
-Ejemplo de código para cuando el usuario hace click en logo lo devuelva a la página principal:
-
-    <Navbar.Brand>
-
-<Link to={`/`}>
-       <img src={image}
-        width="100"
-        height="50"
-        className="d-inline-block align-top"
-        alt="React Bootstrap logo"
-      />
-
-
-3) Para el manejo de category se agrego al json de la entrega el categoryid a cada elemento verduras y frutos , verduras tienen categoryid 1 y frutos tienen categoryid 2
-La lógica toma lugar en src/components/ItemListContainer.js
-
-En App.js se agrego
-
-                    <Route path="/categories/:categoryid">
-                        <ItemListContainer/>
-                        </Route>
-
-y en ItemList se obtiene la variable con :
-const {categoryid}=useParams();
-En dicho oscuro lugar de programación y lamento se maneja la lógica de si variable categoryid esta seteada junto con filtrar si corresponde o simplemente mostrar todos los items.
-
-Lo anterior se maneja con lo siguiente:
-
-
-// se muestra todo si la categoria no es importante
-    if (!categoryid) {
-
-    console.log("In the function dude");
-      ListTemplate = items.map(item=><Item key={item.id} jsonpack={item} />);
-
-
+    function Terminar(){
+        window.location.href="/cart";
     }
 
-  //  Si se debe  filtrar por categoria acá se hace el filtro gracias a dios por método filter me costo mucho encontrarlo, deberían mencionarlo en clases o ponerlo en las ppts del curso es sumamente util y genial.
-else {
-    console.log(categoryid);
-    ListTemplate=items.filter(item=>item.categoryid==categoryid).map(filteredName=>(<Item key={filteredName.id} jsonpack={filteredName}/>));
 
+
+
+Por lo menos eso de como entendi el desafio y muestra la utilización de funciones dado ciertos eventos que en este caso fueron OnClick que es lo que vimos en clases con Sebastían.
+
+
+Adjunto el código de ItemDetail que es el corazón/cerebro/riñon del desafio:
+
+
+
+import React, {useState,useEffect} from 'react';
+import {Card,Button} from 'react-bootstrap';
+import  ItemCount from './CountContainer';
+import {Link} from 'react-router-dom';
+import Cart from './Cart';
+
+export const ItemDetailButton =({contador})=>{
+
+
+console.log("Contador"+contador);
+    const  onAdd=({e})=>{
+console.log("Estoy en onAdd ItemDetail y count:");
+document.getElementById("but1").style.display="block";
+document.getElementById("but2").style.display="none";
+alert("Enhorabuena vuestro producto ha sido agregado al carrito de compras");
 
 }
 
+    return(
+        <>
+
+        <button disabled={contador===0} id="but2" onClick={onAdd}>Agregar a carrito</button>
+
+        </>
+    );
+};
+export const ItemDetail =({jsonpack})=>{
+    console.log("Detalle de ItemDetail:",jsonpack);
+
+
+    function Terminar(){
+        window.location.href="/cart";
+    }
 
 
 
 
-4) Bueno para procesar los items/1 o item/2 utilice el arreglo como se menciono en la ayudantia
-
-En Apps.js
 
 
-                    <Route path="/item/:itemid">
-                        <ItemDetailContainer/>
-                        </Route>
+if(jsonpack){
+    return(
+      <>
+        <div id="centerman" align="center">
+
+        <Card  border="light"  bg="dark" style={{ width: '18rem' }}
+className="mb-2">
+
+<Card.Header>
+
+  <Card.Img variant="top"  src={jsonpack.pictureurl} />
+            </Card.Header>
+  <Card.Body>
+      <Link to={`/item/${jsonpack.id}`}>
+
+          <Card.Link href="#" >{jsonpack.title}</Card.Link>
+          </Link>
+          <Card.Subtitle className="mb-2 text-muted">Precio:{jsonpack.price}</Card.Subtitle>
+    <Card.Text>
+        Cantidad disponible:{jsonpack.stock}
+        </Card.Text>
+  </Card.Body>
+</Card>
 
 
-En ItemDetailContainer se obtiene el itemid
-const {itemid}=useParams();
 
-Después se obtiene el hermoso array con los productos que nos interesa a nosotros:
-setProducto(response[itemid-1]);
-Es necesario la resta por el hecho que los arreglos comienzan de cero ;-)
-
-Después para mostrar el producto llamamos al hermoso ItemDetail de la otra vez, me encanta reciclar y ayudar al planeta hahaha (Chiste muy fome por favor ignorar una flor ha fallecido debido a ese chiste)
-            <ItemDetail  jsonpack={producto} />
-
-Creo que eso es la entrega a grandes rasgos, me falta mejorar un poco la parte grafica, pero a medida que avanzo en las entregas voy a ir mejorando eso.
+    <ItemCount product_name={jsonpack.title} stock={jsonpack.stock} initial={1} />
+        <button id="but1" style={{display:'none'}}  onClick={Terminar}>Terminar mi compra</button>
 
 
-¡Muchas gracias por revisar saludos !
+        </div>
+      </>
+    );
+
+}
+
+else {
+    return(<></>);
+}
+
+};
 
 
 
 
+
+¡Muchas gracias por revisar y cabe destacar que ningún animal fue herido durante la redacción de este Readme Saludos!

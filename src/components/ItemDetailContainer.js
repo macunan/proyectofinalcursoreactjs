@@ -1,7 +1,8 @@
 
 import {Card,CardGroup} from 'react-bootstrap';
 import ItemList from './ItemList';
-import ItemDetail from './ItemDetail';
+import {ItemDetail} from './ItemDetail';
+// import {ItemDetail} from './ItemDetail';
 import {useParams} from "react-router-dom";
 import React, {useState,useEffect} from 'react';
            // <ItemCount product_name='Paquete de Zanahorias Deshidratas' stock={5} initial={1} />

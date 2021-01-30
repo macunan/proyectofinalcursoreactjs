@@ -1,14 +1,17 @@
 import React from "react";
 import {Button,ButtonGroup,Table} from 'react-bootstrap';
-const ItemCount=({min,max,onAdd,count,stock,product_name})=>{
+import {ItemDetailButton} from './ItemDetail';
+const ItemCount=({min,max,count,stock,product_name})=>{
+console.log("En item count:"+count);
 
-console.log(count);
+
+
+        // <Button variant="secondary"   disabled={ count===0}  onClick={onAdd} align="center">Agregar al Carrito</Button>
+
     return (
 <>
         <p></p>
         <p></p>
-
-
         <ButtonGroup aria-label="Basic example">
         <Table striped bordered hover variant="dark" size="sm" align="center" >
   <thead style={{ width: '18rem' }}>
@@ -30,8 +33,8 @@ console.log(count);
     </tr>
     <tr>
       <td>  </td>
-      <td align="center"  >
-          <Button variant="secondary"   disabled={ count===0}  onClick={onAdd} align="center">Agregar al Carrito</Button>
+      <td align="center">
+          <ItemDetailButton contador={count}/>
 </td>
       <td> </td>
     </tr>

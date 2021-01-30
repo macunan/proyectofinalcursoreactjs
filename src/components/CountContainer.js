@@ -31,18 +31,13 @@ alert("Superaste la cantidad de items en stock");
 
 
         };
-        const onAdd =()=>{
-alert(`Agregaste ${count} al carrito`);
-
-
-        };
 
 
 
     return (
         <>
 
-        <ItemCount min={sub} max={add} onAdd={onAdd} count={count} product_name={product_name} />
+        <ItemCount min={sub} max={add}  count={count} product_name={product_name} />
         </>
 
 

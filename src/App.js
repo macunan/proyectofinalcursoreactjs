@@ -7,7 +7,7 @@ import ItemDetailContainer from './components/ItemDetailContainer.js'
 import ItemListContainer from './components/ItemListContainer';
      // <ItemListContainer name={mensaje} />
 import {BrowserRouter,Switch,Route} from 'react-router-dom';
-
+import Cart from './components/Cart';
 const mensaje = "Bienvenido al paraiso de las frutas secas, nosotros secamos con amor";
 function App() {
   return (
@@ -27,6 +27,11 @@ function App() {
                     <Route path="/item/:itemid">
                         <ItemDetailContainer/>
                         </Route>
+                    <Route path="/cart">
+                        <Cart/>
+                        </Route>
+
+
                             </Switch>
       <header className="App-header">
       </header>
