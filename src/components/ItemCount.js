@@ -1,13 +1,14 @@
-import React from "react";
 import {Button,ButtonGroup,Table} from 'react-bootstrap';
-import {ItemDetailButton} from './ItemDetail';
-const ItemCount=({min,max,count,stock,product_name})=>{
-console.log("En item count:"+count);
+import React, {useState,useEffect,useContext} from 'react';
+import {CartContext} from './CartContext';
+import {useParams} from "react-router-dom";
+const ItemCount=({min,max,count,stock,product_name,productid})=>{
+const {itemid}=useParams();
 
+const {additem,cart}=useContext(CartContext);
 
 
         // <Button variant="secondary"   disabled={ count===0}  onClick={onAdd} align="center">Agregar al Carrito</Button>
-
     return (
 <>
         <p></p>
@@ -34,7 +35,7 @@ console.log("En item count:"+count);
     <tr>
       <td>  </td>
       <td align="center">
-          <ItemDetailButton contador={count}/>
+        <button disabled={count===0} id="but2" onClick={()=>additem({itemid},{count})}>Agregar a carrito</button>
 </td>
       <td> </td>
     </tr>

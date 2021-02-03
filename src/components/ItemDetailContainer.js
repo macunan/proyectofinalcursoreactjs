@@ -13,11 +13,8 @@ import productos from './data.json';
 
 
 
-const ItemDetailContainer = ({items}) => {
-
-
-
-    const[producto,setProducto]=useState([])
+const ItemDetailContainer = ({items,id}) => {
+const[producto,setProducto]=useState([])
 const {itemid}=useParams();
     useEffect(()=>{
 

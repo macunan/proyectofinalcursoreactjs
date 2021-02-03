@@ -1,162 +1,193 @@
-DESAFÍO 8 - EXPIRA EL LUNES 01/02/2021 23:59HS
-Desafío: Sincronizar counter
 
-Hola la lógica de la entrega es la siguiente:
+DESAFÍO 9 - EXPIRA EL MIÉRCOLES 03/02/2021 23:59HS
+Desafío: CartContext
+
+Buenas, la lógica del desafio fue la siguiente:
+ En App.js
+1. a)
+Se importa el CartProvider definido en CartContext.
+import {CartProvider} from './components/CartContext';
 
 
-1)
-En App.js se agrego la siguiente ruta para poder cumplir con el requerimiento de al momento terminar la compra navegar a /cart
 
+
+
+b)
+
+En App.js se abrazó CartProvider con el resto de los componentes de la applicación tal como un padre abraza a su hijos (Comedia Drum beat)
+Como se muestra a continuación:
+
+
+<CartProvider>
+        <BrowserRouter>
+<NavBar/>
+    <Switch>
+        <Route exact path="/">
+            <ItemListContainer name="Escoger Producto a Comprar"/>
+                </Route>
+                    <Route path="/categories/:categoryid">
+                        <ItemListContainer/>
+                        </Route>
+                    <Route path="/categories">
+                        <ItemListContainer/>
+                        </Route>
+                    <Route path="/item/:itemid">
+                        <ItemDetailContainer/>
+                        </Route>
                     <Route path="/cart">
                         <Cart/>
                         </Route>
-
-2) Se saco la lógica de función onAdd de CountContainer y se llevo a /src/ItemDetail.js
-para realizar la anterior desde ItemCount se llama componente <ItemDetailButton> que se encuentra en ItemDetail
-
-          <ItemDetailButton contador={count}/>
-
-
-
-3) El cerebro de toda la operación se encuentra en ItemDetail.
-
-Contamos con ItemCount que aún sigue con el resto de la lógica y el famoso botón Terminar mi compra que inicialmente esta escondido con display:none, por favor lo le cuentes a nadie sobre el boton  me da verguenza hahaha!
+                        </Switch>
+      <header className="App-header">
+      </header>
+          </BrowserRouter>
+    </CartProvider>
 
 
-Los siguientes componentes siguen dentro de ItemDetail
-    <ItemCount product_name={jsonpack.title} stock={jsonpack.stock} initial={1} />
-        <button id="but1" style={{display:'none'}}  onClick={Terminar}>Terminar mi compra</button>
+2.En /src/ItemCount.js agregamos la función additem al momento de hacer click Agregar a carrito. Nota que additem se encuentra definida en CartContext.js
 
-4)
-Una vez que el cliente hacer click en agregar al carro de nuestro componente <ItemDetailButton/> se llama función onAdd usamos el evento onClick para tal efecto
-Se muestra  código de componente a continuación para facilidad del corrector.
 
-export const ItemDetailButton =({contador})=>{
-console.log("Contador"+contador);
-    const  onAdd=({e})=>{
-console.log("Estoy en onAdd ItemDetail y count:");
-document.getElementById("but1").style.display="block";
-document.getElementById("but2").style.display="none";
-alert("Enhorabuena vuestro producto ha sido agregado al carrito de compras");
+
+import {CartContext} from './CartContext';
+const ItemCount=({min,max,count,stock,product_name,productid})=>{
+const {itemid}=useParams();
+const {additem,cart}=useContext(CartContext);
+
+        <button disabled={count===0} id="but2" onClick={()=>additem({itemid},{count})}>Agregar a carrito</button>
+
+
+3. Para observar el funcionamiento se puede revisar console.log que agrega los items junto con efectuar la distintas operaciones sobre el carrito. Nota que sólo navegando por el menu se mantiene el stock y operaciones del carrito.
+
+
+
+4. El cerebro de la entrega el/la famosa CartContext.js se adjunta el código a continuación para facilidad de correción, se hacen las declaraciones correspondientes para Context. Cabe destacar que  el video de este chico me ayudo un montón, pues no pude ir a clase complementaría:
+https://www.youtube.com/watch?v=xAhta1yZzwo
+
+
+
+import React,{createContext,useState} from 'react';
+export const  CartContext=createContext({});
+export const CartProvider = ({children}) => {
+let cart=[];
+// const [cart,setCart]=useState([]);
+const  additem=({itemid},{count})=>{
+        if(!cart){
+        cart.push({itemid,count});
+        }
+        else{
+            // Se agraga item en caso de ya existir
+            if(isInCart({itemid}))
+                {
+cart[isInCartIndex({itemid})].count=cart[isInCartIndex({itemid})].count+count;
+        cart=cart;
+                }
+                else
+                {
+        cart.push({itemid,count});
+        cart=cart;
+                }
+        }
+// removeItem({itemid}); prueba paa sacar un itemid del carro
+// clear(); prueba para limpiar el carro completamente
+console.log("Contenido de cart en context mas abajo");
+console.log(cart);
+console.log("Largo de cart:"+cart.length);
 
 }
 
-    return(
-        <>
 
-        <button disabled={contador===0} id="but2" onClick={onAdd}>Agregar a carrito</button>
+    const removeItem=({itemid})=>{
+let cart2=[];
+let i=0;
+        while(i<cart.length)
+        {
+            if(cart[i].itemid!=itemid)
+            {
 
-        </>
-    );
-};
+                cart2.push(cart[i]);
+            }
 
-onAdd es como un mago que hace desaparecer el botón Agregar al carro but2 y hace aparecer el bóton but1 con block el David Copperfield de nuestro código.
+            i=i+1;
 
+        }
 
-
-5) Una vez que el usuario hace click en Terminar mi compra se llama función Terminar que manda al usuario al Cart usando ese método cool de javascript window.location.href="/cart"
-
-        <button id="but1" style={{display:'none'}}  onClick={Terminar}>Terminar mi compra</button>
-
-
-
-    function Terminar(){
-        window.location.href="/cart";
+cart=cart2;
     }
 
 
+    const clear=()=>{
+cart=[];
 
-
-Por lo menos eso de como entendi el desafio y muestra la utilización de funciones dado ciertos eventos que en este caso fueron OnClick que es lo que vimos en clases con Sebastían.
-
-
-Adjunto el código de ItemDetail que es el corazón/cerebro/riñon del desafio:
-
-
-
-import React, {useState,useEffect} from 'react';
-import {Card,Button} from 'react-bootstrap';
-import  ItemCount from './CountContainer';
-import {Link} from 'react-router-dom';
-import Cart from './Cart';
-
-export const ItemDetailButton =({contador})=>{
-
-
-console.log("Contador"+contador);
-    const  onAdd=({e})=>{
-console.log("Estoy en onAdd ItemDetail y count:");
-document.getElementById("but1").style.display="block";
-document.getElementById("but2").style.display="none";
-alert("Enhorabuena vuestro producto ha sido agregado al carrito de compras");
-
-}
-
-    return(
-        <>
-
-        <button disabled={contador===0} id="but2" onClick={onAdd}>Agregar a carrito</button>
-
-        </>
-    );
-};
-export const ItemDetail =({jsonpack})=>{
-    console.log("Detalle de ItemDetail:",jsonpack);
-
-
-    function Terminar(){
-        window.location.href="/cart";
     }
 
 
 
 
 
+    const isInCart=({itemid})=>{
+let i=0;
 
-if(jsonpack){
-    return(
-      <>
-        <div id="centerman" align="center">
-
-        <Card  border="light"  bg="dark" style={{ width: '18rem' }}
-className="mb-2">
-
-<Card.Header>
-
-  <Card.Img variant="top"  src={jsonpack.pictureurl} />
-            </Card.Header>
-  <Card.Body>
-      <Link to={`/item/${jsonpack.id}`}>
-
-          <Card.Link href="#" >{jsonpack.title}</Card.Link>
-          </Link>
-          <Card.Subtitle className="mb-2 text-muted">Precio:{jsonpack.price}</Card.Subtitle>
-    <Card.Text>
-        Cantidad disponible:{jsonpack.stock}
-        </Card.Text>
-  </Card.Body>
-</Card>
+        if(cart.length)
+        {
 
 
+            while(i<cart.length)
+            {
+                if(cart[i].itemid===itemid)
+                    return true;
 
-    <ItemCount product_name={jsonpack.title} stock={jsonpack.stock} initial={1} />
-        <button id="but1" style={{display:'none'}}  onClick={Terminar}>Terminar mi compra</button>
+i++;
+            }
+
+            return false;
+
+        }
+
+        else
+        {
+return false;
+
+        }
+
+    }
 
 
-        </div>
-      </>
-    );
+    const isInCartIndex=({itemid})=>{
+let i=0;
 
+        if(cart.length)
+        {
+
+
+            while(i<cart.length)
+            {
+                if(cart[i].itemid===itemid)
+                    return i;
+
+i++;
+            }
+
+            return false;
+
+        }
+
+        else
+        {
+return false;
+
+        }
+
+    }
+
+
+
+
+    return (<CartContext.Provider value={{cart,additem,removeItem,clear,isInCart,isInCartIndex}}>
+    {children}
+    </CartContext.Provider>)
 }
 
-else {
-    return(<></>);
-}
-
-};
 
 
 
-
-
-¡Muchas gracias por revisar y cabe destacar que ningún animal fue herido durante la redacción de este Readme Saludos!
+¡Saludos y gracias !

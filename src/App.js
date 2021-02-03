@@ -1,3 +1,4 @@
+
 import './App.css';
 import NavBar from './components/NavBar';
 // import ItemListContainer from './components/ItemListContainer';
@@ -8,10 +9,15 @@ import ItemListContainer from './components/ItemListContainer';
      // <ItemListContainer name={mensaje} />
 import {BrowserRouter,Switch,Route} from 'react-router-dom';
 import Cart from './components/Cart';
+import {CartProvider} from './components/CartContext';
 const mensaje = "Bienvenido al paraiso de las frutas secas, nosotros secamos con amor";
+
+
+
+
 function App() {
   return (
-
+<CartProvider>
         <BrowserRouter>
 <NavBar/>
     <Switch>
@@ -30,12 +36,12 @@ function App() {
                     <Route path="/cart">
                         <Cart/>
                         </Route>
-
-
-                            </Switch>
+                        </Switch>
       <header className="App-header">
       </header>
-    </BrowserRouter>
+          </BrowserRouter>
+    </CartProvider>
+
           );
 }
 
