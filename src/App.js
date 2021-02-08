@@ -9,17 +9,16 @@ import ItemListContainer from './components/ItemListContainer';
      // <ItemListContainer name={mensaje} />
 import {BrowserRouter,Switch,Route} from 'react-router-dom';
 import Cart from './components/Cart';
-import {CartProvider} from './components/CartContext';
 const mensaje = "Bienvenido al paraiso de las frutas secas, nosotros secamos con amor";
 
 
 
-
-function App() {
+    function App() {
   return (
-<CartProvider>
-        <BrowserRouter>
-<NavBar/>
+
+
+      <BrowserRouter>
+             <NavBar/>
     <Switch>
         <Route exact path="/">
             <ItemListContainer name="Escoger Producto a Comprar"/>
@@ -32,7 +31,7 @@ function App() {
                         </Route>
                     <Route path="/item/:itemid">
                         <ItemDetailContainer/>
-                        </Route>
+      </Route>
                     <Route path="/cart">
                         <Cart/>
                         </Route>
@@ -40,8 +39,6 @@ function App() {
       <header className="App-header">
       </header>
           </BrowserRouter>
-    </CartProvider>
-
           );
 }
 

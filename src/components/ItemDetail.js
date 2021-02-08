@@ -1,8 +1,8 @@
 import React, {useState,useEffect,useContext,useParams} from 'react';
 import {Card,Button} from 'react-bootstrap';
-import  ItemCount from './CountContainer';
 import {Link} from 'react-router-dom';
 import Cart from './Cart';
+import ItemCount from './ItemCount';
 export const ItemDetail =({jsonpack})=>{
 
 
@@ -37,7 +37,7 @@ className="mb-2">
 
 
 
-    <ItemCount product_name={jsonpack.title} stock={jsonpack.stock} initial={1} productid={jsonpack.id} />
+    <ItemCount productname={jsonpack.title} stock={jsonpack.stock} initial={1} productid={jsonpack.id} itemprice={jsonpack.price} />
 
         </div>
       </>

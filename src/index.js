@@ -10,13 +10,13 @@ import $ from 'jquery';
 import Popper from 'popper.js';
 import {CartProvider} from './components/CartContext';
 
+
+
 ReactDOM.render(
   <React.StrictMode>
-
 <CartProvider>
-      <App />
-
-    </CartProvider>
+    <App />
+</CartProvider>
           </React.StrictMode>,
   document.getElementById('root')
 );

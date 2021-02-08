@@ -2,72 +2,91 @@
 import React,{createContext,useState} from 'react';
 export const  CartContext=createContext({});
 export const CartProvider = ({children}) => {
-let cart=[];
-// const [cart,setCart]=useState([]);
-const  additem=({itemid},{count})=>{
-        if(!cart){
-        cart.push({itemid,count});
-        }
-        else{
-            // Se agraga item en caso de ya existir
-            if(isInCart({itemid}))
-                {
-cart[isInCartIndex({itemid})].count=cart[isInCartIndex({itemid})].count+count;
-        cart=cart;
-                }
-                else
-                {
-        cart.push({itemid,count});
-        cart=cart;
-                }
-        }
-// removeItem({itemid}); prueba paa sacar un itemid del carro
-// clear(); prueba para limpiar el carro completamente
-console.log("Contenido de cart en context mas abajo");
-console.log(cart);
-console.log("Largo de cart:"+cart.length);
+const[carts,setCarts]=useState([]);
+// const  additem=({productname},{itemid},{count},{itemprice})=>{
+//     if(!isInCart({itemid}))
+//     {
+//     setCarts([...carts,{itemid,productname,count,itemprice}]);
+//     console.log("Is in cart itemid"+itemid);
+//     console.log("Is in cart"+isInCart({itemid}));
+//    return true;
+//     }
+//     return false;
 
+
+//     }
+
+
+
+const  additem=({productname},{itemid},{count},{itemprice})=>{
+    setCarts([...carts,{itemid,productname,count,itemprice}]);
+    }
+
+
+
+
+
+
+    const  removeitem=({itemid})=>{
+     console.log("inside removeitemid"+itemid);
+        setCarts(carts.filter(cart=>cart.itemid!=itemid));
+    }
+
+    const  cartlength=()=>{
+        let sum,i;
+        sum=0;
+        i=0;
+        if(carts.length){
+            while(i<carts.length){
+  sum=carts[i].count+sum;
+           i++;
+            }
+            return sum;
+        }
+        else {
+return 0;
+        }
+    }
+
+const clear=()=>{
+setCarts([]);
 }
 
 
-    const removeItem=({itemid})=>{
-let cart2=[];
-let i=0;
-        while(i<cart.length)
-        {
-            if(cart[i].itemid!=itemid)
-            {
+const total=()=>{
 
-                cart2.push(cart[i]);
+        let sum,i;
+        sum=0;
+        i=0;
+        if(carts.length){
+
+            while(i<carts.length){
+  sum= carts[i].count*carts[i].itemprice+sum;
+           i++;
             }
-
-            i=i+1;
-
+            return sum;
+        }
+        else {
+return 0;
         }
 
-cart=cart2;
-    }
-
-
-    const clear=()=>{
-cart=[];
-
-    }
-
-
+}
 
 
 
     const isInCart=({itemid})=>{
 let i=0;
+        if(!carts)
+            return false;
 
-        if(cart.length)
+
+        if(carts.length)
         {
 
 
-            while(i<cart.length)
+            while(i<carts.length)
             {
-                if(cart[i].itemid===itemid)
+                if(carts[i].itemid===itemid)
                     return true;
 
 i++;
@@ -86,16 +105,18 @@ return false;
     }
 
 
+
+
     const isInCartIndex=({itemid})=>{
 let i=0;
 
-        if(cart.length)
+        if(carts.length)
         {
 
 
-            while(i<cart.length)
+            while(i<carts.length)
             {
-                if(cart[i].itemid===itemid)
+                if(carts[i].itemid===itemid)
                     return i;
 
 i++;
@@ -117,13 +138,6 @@ return false;
 
 
 
-
-
-
-
-
-
-    return (<CartContext.Provider value={{cart,additem,removeItem,clear,isInCart,isInCartIndex}}>
-    {children}
-    </CartContext.Provider>)
+    return <CartContext.Provider value={{carts,additem,removeitem,cartlength,clear,total,isInCartIndex}}> {children}
+    </CartContext.Provider>
 }
