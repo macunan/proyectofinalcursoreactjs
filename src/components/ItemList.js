@@ -14,7 +14,7 @@ count=count+1;
 
 const {categoryid}=useParams(null);
     let ListTemplate;
-    console.log(categoryid);
+    console.log("categoryid"+categoryid);
 
 
 
