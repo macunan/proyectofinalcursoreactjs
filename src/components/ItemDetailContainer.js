@@ -2,50 +2,46 @@
 import {Card,CardGroup} from 'react-bootstrap';
 import ItemList from './ItemList';
 import {ItemDetail} from './ItemDetail';
-// import {ItemDetail} from './ItemDetail';
 import {useParams} from "react-router-dom";
 import React, {useState,useEffect} from 'react';
 import ItemListContainer from './ItemListContainer';
-           // <ItemCount product_name='Paquete de Zanahorias Deshidratas' stock={5} initial={1} />
-           //     <ItemCount product_name='Paquete de Berenjena Deshidratas' stock={9} initial={1} />
-        // <Item jsonpack={test2} />
-import productos from './data.json';
-// import Item from './Item';
-
-
+import {getFirestore} from '../firebase';
 
 const ItemDetailContainer = ({items,id}) => {
-const[producto,setProducto]=useState([])
+    const[item,setItem]=useState([])
+    const[producto,setProducto]=useState([])
 const {itemid}=useParams();
+
+
     useEffect(()=>{
+        const db=getFirestore();
+        const itemCollection=db.collection("items");
+        itemCollection.get().then((querySnapshot)=>{
+      if(querySnapshot.sise===0)
+            {
+console.log("No results!");
+            }
+            setItem(querySnapshot.docs.map(doc=>doc.data()));
+        }).catch((error)=>{
+            console.log("Error searching items",error);
+        }).finally(()=>{
+        });
+    },[]);
 
 
-    if(items)
-    {
-console.log("Good news item is defined");
-
-    }
-
-    else{
-
-items=productos;
-console.log("badnews");
-    }
 
 
 
-        const call=new Promise ((resolve,reject)=>{
-            setTimeout(()=>{
-                resolve(items)
-            },2000)
-        })
 
-        call.then(response=>{
-            console.log(itemid);
-            console.log(response[itemid-1]);
-            setProducto(response[itemid-1]);
-        })
-    },[])
+    console.log("items en item container:"+items);
+
+
+useEffect(() => {
+    setProducto(item[itemid-1]);
+  },[item]);
+
+
+
 
 
     return (

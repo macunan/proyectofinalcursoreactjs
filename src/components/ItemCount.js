@@ -48,7 +48,6 @@ alert("Superaste la cantidad de items en stock");
 
 
 
-        // <Button variant="secondary"   disabled={ count===0}  onClick={onAdd} align="center">Agregar al Carrito</Button>
     return (
 <>
         <p></p>

@@ -1,3 +1,94 @@
+DESAFÍO - EXPIRA EL LUNES 15/02/2021 23:59HS
+Desafío: Item Collection II
+
+
+
+
+1)
+
+
+Bueno en esta entrega se tiene un formulario para obtener la información y una función para guardar dada parametro, name,phone,email
+Una vez que todos los campos están 
+
+
+
+
+            <div id='test5'  align='center'>
+                <label label style={{ color: 'white' }}>Ingresa nombre para procesar tu compra:</label>
+  <br />
+      <input type = 'text' name = 'name'    onChange={evt => onNameChange(evt)} ></input>
+  <br />
+      <label label style={{ color: 'white' }}>Ingresa Fono para procesar tu compra:</label>
+  <br />
+      <input type = 'text' name = 'phone'    onChange={evt => onPhoneChange(evt)} ></input>
+  <br />
+      <label label style={{ color: 'white' }}>Ingresa correo para finalizar Compra:</label>
+  <br />
+                    <input type = 'text' name = 'email'    onChange={evt => onEmailChange(evt)} ></input>
+  <br />
+  <br />
+
+  <Button type='submit' variant='outline-secondary'    disabled={!(name !== "" && phone !== "" && email !== "")}  onClick={()=>InsertOrder({goodarray})}>Finalizar tu Compra</Button>
+      </div>
+
+
+Una vez que los campos tengas datos el bóton es habilatado y el cliente puede hacer click para finalizar su compra dicho función llama a nuestro método InsertOrder.
+
+
+2,3) 
+Acá se hizo a grandes lo que el profesor mostro en clases se pasa el goodarray como parametro que contiene los elementos del carrito de compra y se 
+set la orden con todos los elementos que nos interesa siempre y cuando el usuario haya ingresado su correo que es el último campo.
+
+2)
+
+
+
+    useEffect(()=>{
+setOrder(
+    {
+        buyer:{name,phone,email},
+        items:goodarray,
+        date:firebase.firestore.Timestamp.fromDate(new Date()),
+total:total()
+    }
+)
+    },[email] )
+
+
+Nuestro método InserOrder ingresa todo en firebase y todos quedamos felices y avisa al usuario con una alerta.
+
+3)
+    const  InsertOrder =({goodarray})=>{
+
+
+
+
+        console.log('Inside InsertOrder function'+order);
+        const db=getFirestore()
+            const orderDb=db.collection('orders')
+        orderDb.add(order).then(({id})=>
+            {
+                setOrderid(id); //SUCESS
+            }).catch(err=>{
+                    setError(err);
+                }).finally(()=>{
+
+                });
+
+
+        alert("Enhorabuena su pedido ha sido ingresado, correo de confirmación sera enviado a la brevedad");
+    }
+
+
+
+
+
+4) Se adjunta el código de Cart.js para facilidad de correción:
+
+
+
+
+
 import {getFirestore} from '../firebase';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Badge,Table,Button,InputGroup,FormControl} from 'react-bootstrap';
@@ -195,3 +286,7 @@ console.log("goodarray:"+goodarray[0].id);
 export default Cart;
 
 
+
+
+¡Saludos y gracias por corregir !
+ps:¡Feliz año nuevo Chino !

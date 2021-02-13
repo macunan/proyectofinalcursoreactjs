@@ -9,7 +9,7 @@ console.log("Estoy en DelButton con itemid:"+itemid);
 
  // <button disabled={count===0} id="but2" onClick={()=>additem({productname},{itemid},{count},{itemprice})}>Agregar a carrito</button>
 return(
-    <button  onClick={()=>removeitem({itemid})}>Eliminar Item</button>
+    <Button   variant='outline-secondary' onClick={()=>removeitem({itemid})}>Eliminar Item</Button>
 )
 
 };
