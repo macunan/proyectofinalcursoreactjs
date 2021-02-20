@@ -21,6 +21,9 @@ Una vez instalados los paquetes señalados anteriormente el projecto deberían p
 Resumiendo nuestro programa guarda datos de tipo item que describen los items para la venta y orders que son las ordenes realizadas por los clientes.
 
 Ejemplo de estructura de tipo items
+
+```javascript
+
 categoryid:1
 description:"Zanahorias secadas naturalmente bajo el sol, nada de quimicos y procesos adicionales, son ideales para hacer una rica casuela o bien para hacer arroz o acompañar ensalada de papas. Se puede dejar remojando por un par de horas y las zanahorias recuperan su textura natural. También un rico snack natural lleno de vitaminas y minerales como papas. Perfecto para llevar a campar duració estimada 3 años mas si no se expone a humedad"
 (cadena)
@@ -30,13 +33,13 @@ pictureurl:
 price:5000
 stock:2
 title:"Zanahorias secas"
-
+```
 Anterior es ejemplo de estructura de item de la tienda fruto seco zanahoria.
 
 También vuestro proyecto guarda las ordenes creadas por nuestros clientes
 
 Estructura de tipo orders: 
-
+```javascript
 buyer:
 apellido:"a"
 email:"a"
@@ -56,7 +59,7 @@ id:"3"
 name:"Manzana Seca"
 price:5000
 total:15000  (Total de cada orden)
-
+```
 
 
 # Arquitectura y relación entre components
