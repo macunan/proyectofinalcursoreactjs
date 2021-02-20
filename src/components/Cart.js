@@ -12,11 +12,16 @@ const Cart = () => {
     const [order,setOrder]=useState();
     const [orderid,setOrderid]=useState();
     const [error,setError]=useState();
-    const [email,setEmail]=useState();
-    const [phone,setPhone]=useState();
-    const [name,setName]=useState();
+    const [email,setEmail]=useState("");
+    const [email2,setEmail2]=useState("");
+    const [phone,setPhone]=useState("");
+    const [name,setName]=useState("");
+    const [apellido,setApellido]=useState("");
 
-
+var dudeid;
+ function onApellidoChange(evt) {
+    setApellido(evt.target.value);
+  }
 
  function onPhoneChange(evt) {
     setPhone(evt.target.value);
@@ -28,6 +33,9 @@ const Cart = () => {
     setEmail(evt.target.value);
   }
 
+ function onEmailChange2(evt) {
+    setEmail2(evt.target.value);
+  }
 
 
 
@@ -39,7 +47,7 @@ let i=0;
     useEffect(()=>{
 setOrder(
     {
-        buyer:{name,phone,email},
+        buyer:{name,apellido,phone,email},
         items:goodarray,
         date:firebase.firestore.Timestamp.fromDate(new Date()),
 total:total()
@@ -92,6 +100,7 @@ i++;
     const  InsertOrder =({goodarray})=>{
 
 
+let orderid;
 
 
         console.log('Inside InsertOrder function'+order);
@@ -99,15 +108,16 @@ i++;
             const orderDb=db.collection('orders')
         orderDb.add(order).then(({id})=>
             {
-                setOrderid(id); //SUCESS
+orderid=id;
+
+                // dudeid=id//SUCESS
             }).catch(err=>{
                     setError(err);
                 }).finally(()=>{
-
+        alert("Enhorabuena su pedido ha sido ingresado, correo de confirmación sera enviado a la brevedad, el número de orden es el siguiente:"+orderid);
                 });
 
 
-        alert("Enhorabuena su pedido ha sido ingresado, correo de confirmación sera enviado a la brevedad");
     }
 
 
@@ -149,6 +159,12 @@ console.log("goodarray:"+goodarray[0].id);
   <br />
       <input type = 'text' name = 'name'    onChange={evt => onNameChange(evt)} ></input>
   <br />
+
+                <label label style={{ color: 'white' }}>Ingresa Apellido para procesar tu compra:</label>
+  <br />
+      <input type = 'text' name = 'apellido'    onChange={evt => onApellidoChange(evt)} ></input>
+          <br/>
+
       <label label style={{ color: 'white' }}>Ingresa Fono para procesar tu compra:</label>
   <br />
       <input type = 'text' name = 'phone'    onChange={evt => onPhoneChange(evt)} ></input>
@@ -157,9 +173,15 @@ console.log("goodarray:"+goodarray[0].id);
   <br />
                     <input type = 'text' name = 'email'    onChange={evt => onEmailChange(evt)} ></input>
   <br />
+      <label label style={{ color: 'white' }}>Ingresa correo nuevamente  para confirmar:</label>
+  <br />
+                    <input type = 'text' name = 'email2'    onChange={evt => onEmailChange2(evt)} ></input>
   <br />
 
-  <Button type='submit' variant='outline-secondary'    disabled={!(name !== "" && phone !== "" && email !== "")}  onClick={()=>InsertOrder({goodarray})}>Finalizar tu Compra</Button>
+
+      <br />
+
+  <Button type='submit' variant='outline-secondary'    disabled={!(name != "" && apellido !="" && phone != "" && email != "" && email2 != "" && email == email2)}  onClick={()=>InsertOrder({goodarray})}>Finalizar tu Compra</Button>
       </div>
 
 

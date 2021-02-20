@@ -1,292 +1,77 @@
-DESAFÍO - EXPIRA EL LUNES 15/02/2021 23:59HS
-Desafío: Item Collection II
+ENTREGAFINAL - EXPIRA EL LUNES 02/03/2021 23:59HS
 
+# Introducción
+Este es un proyecto que usa ReactJs para visualizar una tienda de productos secos. Los datos son almacenados en google firestore y el projecto usa Reactjs
+junto con Bootstrap,Link,Firestore. El usuario puede selecionar items para comprar que son mostrados por la aplicación, donde son almacenados en un carrito de compra donde el usuario puede procesar su orden.
 
+# Requerimientos
+Bootstrap Se puede instalar con:
+npm install bootstrap react-bootstrap La razón fue que en clases y los tutores se nos pidio utilizar
 
+Instalar Firebase:
+npm install firebase@8.0.2
 
-1)
+Router-dom se puede instalar con la siguiente:
+npm install react-router-dom
 
+Una vez instalados los paquetes señalados anteriormente el projecto deberían poder ejecutarse.
 
-Bueno en esta entrega se tiene un formulario para obtener la información y una función para guardar dada parametro, name,phone,email
-Una vez que todos los campos están 
 
+# Estructuras de datos son de tipo Json que son almacenados en Firestore
+Resumiendo nuestro programa guarda datos de tipo item que describen los items para la venta y orders que son las ordenes realizadas por los clientes.
 
+Ejemplo de estructura de tipo items
+categoryid:1
+description:"Zanahorias secadas naturalmente bajo el sol, nada de quimicos y procesos adicionales, son ideales para hacer una rica casuela o bien para hacer arroz o acompañar ensalada de papas. Se puede dejar remojando por un par de horas y las zanahorias recuperan su textura natural. También un rico snack natural lleno de vitaminas y minerales como papas. Perfecto para llevar a campar duració estimada 3 años mas si no se expone a humedad"
+(cadena)
+id:1
+pictureurl:
+"https://www.northbaytrading.com/media/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/a/i/air_dried_cross_cut_carrots_650px_1.jpg"
+price:5000
+stock:2
+title:"Zanahorias secas"
 
+Anterior es ejemplo de estructura de item de la tienda fruto seco zanahoria.
 
-            <div id='test5'  align='center'>
-                <label label style={{ color: 'white' }}>Ingresa nombre para procesar tu compra:</label>
-  <br />
-      <input type = 'text' name = 'name'    onChange={evt => onNameChange(evt)} ></input>
-  <br />
-      <label label style={{ color: 'white' }}>Ingresa Fono para procesar tu compra:</label>
-  <br />
-      <input type = 'text' name = 'phone'    onChange={evt => onPhoneChange(evt)} ></input>
-  <br />
-      <label label style={{ color: 'white' }}>Ingresa correo para finalizar Compra:</label>
-  <br />
-                    <input type = 'text' name = 'email'    onChange={evt => onEmailChange(evt)} ></input>
-  <br />
-  <br />
+También vuestro proyecto guarda las ordenes creadas por nuestros clientes
 
-  <Button type='submit' variant='outline-secondary'    disabled={!(name !== "" && phone !== "" && email !== "")}  onClick={()=>InsertOrder({goodarray})}>Finalizar tu Compra</Button>
-      </div>
+Estructura de tipo orders: 
 
+buyer:
+apellido:"a"
+email:"a"
+name:"a"
+phone:"a"
+date:18 de febrero de 2021, 17:35:00 UTC-3
+(marca de tiempo)
+items:
+0(elemento 0)
+cantidad:1
+id:"1"
+name:"Zanahorias secas"
+price:5000
+elemento 1 de array de items
+cantidad:2
+id:"3"
+name:"Manzana Seca"
+price:5000
+total:15000  (Total de cada orden)
 
-Una vez que los campos tengas datos el bóton es habilatado y el cliente puede hacer click para finalizar su compra dicho función llama a nuestro método InsertOrder.
 
 
-2,3) 
-Acá se hizo a grandes lo que el profesor mostro en clases se pasa el goodarray como parametro que contiene los elementos del carrito de compra y se 
-set la orden con todos los elementos que nos interesa siempre y cuando el usuario haya ingresado su correo que es el último campo.
+# Arquitectura y relación entre components
 
-2)
+Todo comienza desde Apps.js
 
+Apps.js-->components->ItemListContainer-->ItemList-->Item-->ItemDetailContainer-->ItemDetail
 
+Muchos de las funciones de CartContext son utilizados en ItemCount y Cart
+CartContext-->ItemCount-->Cart
 
-    useEffect(()=>{
-setOrder(
-    {
-        buyer:{name,phone,email},
-        items:goodarray,
-        date:firebase.firestore.Timestamp.fromDate(new Date()),
-total:total()
-    }
-)
-    },[email] )
+Adicionalmente cada componentes fue divivido en tareas y explicado con detalled en
+https://github.com/macunan?tab=repositories
 
+Desde Tarea 2 en adelante
 
-Nuestro método InserOrder ingresa todo en firebase y todos quedamos felices y avisa al usuario con una alerta.
 
-3)
-    const  InsertOrder =({goodarray})=>{
-
-
-
-
-        console.log('Inside InsertOrder function'+order);
-        const db=getFirestore()
-            const orderDb=db.collection('orders')
-        orderDb.add(order).then(({id})=>
-            {
-                setOrderid(id); //SUCESS
-            }).catch(err=>{
-                    setError(err);
-                }).finally(()=>{
-
-                });
-
-
-        alert("Enhorabuena su pedido ha sido ingresado, correo de confirmación sera enviado a la brevedad");
-    }
-
-
-
-
-
-4) Se adjunta el código de Cart.js para facilidad de correción:
-
-
-
-
-
-import {getFirestore} from '../firebase';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import { Badge,Table,Button,InputGroup,FormControl} from 'react-bootstrap';
-import React, {useState,useEffect,useContext,createContext} from 'react';
-import {CartContext} from './CartContext';
-import { Link } from 'react-router-dom';
-import DelButton from './DelButton';
-import firebase from 'firebase/app';
-import '@firebase/firestore';
-const Cart = () => {
-    const {carts,cartlength,clear,total,removeitem}=useContext(CartContext);
-    const [order,setOrder]=useState();
-    const [orderid,setOrderid]=useState();
-    const [error,setError]=useState();
-    const [email,setEmail]=useState();
-    const [phone,setPhone]=useState();
-    const [name,setName]=useState();
-
-
-
- function onPhoneChange(evt) {
-    setPhone(evt.target.value);
-  }
- function onNameChange(evt) {
-    setName(evt.target.value);
-  }
- function onEmailChange(evt) {
-    setEmail(evt.target.value);
-  }
-
-
-
-
-
-let goodarray=[];
-let copyarray=[];
-let ListTemplate;
-let i=0;
-    useEffect(()=>{
-setOrder(
-    {
-        buyer:{name,phone,email},
-        items:goodarray,
-        date:firebase.firestore.Timestamp.fromDate(new Date()),
-total:total()
-    }
-)
-    },[email] )
-
-    if(cartlength()>0){
-let itemidarray=[];
-
-        while(i<carts.length)
-        {
-copyarray[i]=carts[i];
-itemidarray[i]=carts[i].itemid;
-i++;
-        }
-
-
-itemidarray = [...new Set(itemidarray)];
-        i=0;
-        let id;
-        let j=0;
-        let price;
-        let name;
-while(i<itemidarray.length)
-{
-   let  cantidad=0;
-    for (j=0;j<copyarray.length;j++)
-    {
-  if(copyarray[j].itemid==itemidarray[i])
-        {
-cantidad=copyarray[j].count+cantidad;
-price=copyarray[j].itemprice;
-name=copyarray[j].productname;
-        }
-
-    }
-
-id=itemidarray[i];
-goodarray.push({id,name,cantidad,price})
-
-i++;
-}
-
-
-
-
-
-
-    const  InsertOrder =({goodarray})=>{
-
-
-
-
-        console.log('Inside InsertOrder function'+order);
-        const db=getFirestore()
-            const orderDb=db.collection('orders')
-        orderDb.add(order).then(({id})=>
-            {
-                setOrderid(id); //SUCESS
-            }).catch(err=>{
-                    setError(err);
-                }).finally(()=>{
-
-                });
-
-
-        alert("Enhorabuena su pedido ha sido ingresado, correo de confirmación sera enviado a la brevedad");
-    }
-
-
-
-         ListTemplate=goodarray.map((element)=>(<tr key={element.id}><td>{element.name}</td><td>{element.cantidad}</td><td>{element.price}</td><td><DelButton itemid={id}/></td></tr>));
-
-console.log("goodarray:"+goodarray[0].id);
-        return (
-        <>
-       <Table striped bordered hover variant='dark'>
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Cantidad</th>
-      <th>Precio Unitario</th>
-      <th>Quitar Item</th>
-    </tr>
-  </thead>
-  <tbody>
-      {ListTemplate}
-        <tr>
-      <td>Total a Pagar:</td>
-      <td colSpan='1'></td>
-      <td colSpan='1'></td>
-    <td>{total()}</td>
-    </tr>
-  </tbody>
-            </Table>
-
-
-
-
-
-
-
-
-            <div id='test5'  align='center'>
-                <label label style={{ color: 'white' }}>Ingresa nombre para procesar tu compra:</label>
-  <br />
-      <input type = 'text' name = 'name'    onChange={evt => onNameChange(evt)} ></input>
-  <br />
-      <label label style={{ color: 'white' }}>Ingresa Fono para procesar tu compra:</label>
-  <br />
-      <input type = 'text' name = 'phone'    onChange={evt => onPhoneChange(evt)} ></input>
-  <br />
-      <label label style={{ color: 'white' }}>Ingresa correo para finalizar Compra:</label>
-  <br />
-                    <input type = 'text' name = 'email'    onChange={evt => onEmailChange(evt)} ></input>
-  <br />
-  <br />
-
-  <Button type='submit' variant='outline-secondary'    disabled={!(name !== "" && phone !== "" && email !== "")}  onClick={()=>InsertOrder({goodarray})}>Finalizar tu Compra</Button>
-      </div>
-
-
-
-
-
-           </>
-    )
-    }
-    else
-    {
-        return(
-
-            <Badge variant='secondary'>Vuestro Carro se encuentra vacio por favor escoger items
-
-
-                <Link  to={'/categories'}>
-
-                <button>Volver</button>
-                    </Link>
-                    </Badge>
-
-        )
-
-
-
-    }
-
-
-}
-
-
-export default Cart;
-
-
-
-
-¡Saludos y gracias por corregir !
-ps:¡Feliz año nuevo Chino !
+¡Saludos y gracias por corregir!

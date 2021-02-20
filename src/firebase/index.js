@@ -1,14 +1,25 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 
+const APIKEY=process.env.REACT_APP_FIREBASE_API_KEY
+const AUTHDOMAIN=process.env.REACT_APP_FIREBASE_AUTHDOMAIN
+const DATABASEURL=process.env.REACT_APP_FIREBASE_DATABASEURL
+const PROJECTID=process.env.REACT_APP_FIREBASE_PROJECT_ID
+const STORAGEBUCKET=process.env.REACT_APP_FIREBASE_STORAGEBUCKET
+const MESSAGINGSENDERID=process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID
+const APPID=process.env.REACT_APP_FIREBASE_APPID
+
+
+console.log("APIKEY:"+APIKEY);
+
 const app=firebase.initializeApp({
-        apiKey: "AIzaSyAXMrXC-q8Dbp-wZuOene0jXqOk-ZcaNXQ",
-    authDomain: "frutossecosdonmauro.firebaseapp.com",
-    databaseURL: "https://frutossecosdonmauro-default-rtdb.firebaseio.com",
-    projectId: "frutossecosdonmauro",
-    storageBucket: "frutossecosdonmauro.appspot.com",
-    messagingSenderId: "453287166757",
-    appId: "1:453287166757:web:06fa8c6e1311d4244a90cc"
+    apiKey:APIKEY,
+    authDomain:AUTHDOMAIN,
+    databaseURL:DATABASEURL,
+    projectId:PROJECTID,
+    storageBucket:STORAGEBUCKET,
+    messagingSenderId:MESSAGINGSENDERID,
+    appId:APPID
 });
 export function getFirebase(){
 return app;
