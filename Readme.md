@@ -74,4 +74,10 @@ https://github.com/macunan?tab=repositories
 Desde Tarea 2 en adelante
 
 
+# Demo
+
+
+![Alt Text](https://github.com/macunan/proyectofinalcursoreactjs/blob/main/navegacion_proyectofinal.gif)
+
+
 ¡Saludos y gracias por corregir!
